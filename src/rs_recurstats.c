@@ -42,18 +42,17 @@ void rs_reset(rs_recurstats * rs) {
 
 void rs_add_value(rs_recurstats * rs, double x) {
   ringbuf_put(rs, x);
-  if (0.0 == rs->depth) {
+  if (0 == rs->depth) {
     rs->mean = x;
     rs->stdev = 0.0;
+    rs->depth = 1;
   }
   else {
-    // Careful! we have base-0 arrays!
-    size_t n = rs->depth + 1;
+    size_t n = ++rs->depth;
     rs->mean = ((n - 1) * rs->mean + x) / n;
     rs->stdev = sqrt(((n - 2) * pow(rs->stdev, 2) +
                       (double)n / (n - 1) * pow(rs->stdev - x, 2)) / (n - 1));
   }
-  rs->depth++;
 }
 
 double rs_add_value_and_check(rs_recurstats * rs, double value) {

@@ -1,2 +1,9 @@
 /build/*
 xcuserdata
+
+#latex
+*.aux
+*.log
+*.lb
+*.out
+*.synctex*
