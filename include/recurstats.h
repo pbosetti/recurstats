@@ -24,7 +24,7 @@ typedef struct {
 
 } rs_recurstats;
 
-rs_recurstats * rs_init(size_t buflen);
+rs_recurstats * rs_init(uint8_t buflen_pow);
 void rs_free(rs_recurstats * rs);
 
 void rs_reset(rs_recurstats * rs);

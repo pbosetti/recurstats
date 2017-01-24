@@ -15,7 +15,8 @@
 static double t_test(rs_recurstats * rs);
 static uint8_t ringbuf_put(rs_recurstats *r, double value);
 
-rs_recurstats * rs_init(size_t buflen) {
+rs_recurstats * rs_init(uint8_t buflen_pow) {
+  uint8_t buflen = pow(2, buflen_pow);
   rs_recurstats * rs =(rs_recurstats *)malloc(sizeof(rs_recurstats));
   rs->depth = 0;
   rs->mean = 0.0;
@@ -41,7 +42,7 @@ void rs_reset(rs_recurstats * rs) {
 
 void rs_add_value(rs_recurstats * rs, double x) {
   ringbuf_put(rs, x);
-  if (rs->depth == 0) {
+  if (0.0 == rs->depth) {
     rs->mean = x;
     rs->stdev = 0.0;
   }
@@ -69,7 +70,7 @@ double rs_last_value(rs_recurstats *r) {
 static double t_test(rs_recurstats * rs) {
   double t0, xbar;
   uint8_t i;
-  if (rs->stdev == 0.0)
+  if (0.0 == rs->stdev)
     return 1.0;
   for (i = 0; i < rs->buflen; i++) {
     xbar += rs->buffer_data[i];

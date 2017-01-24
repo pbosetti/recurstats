@@ -11,7 +11,7 @@
 #define N 12
 
 int main(int argc, const char * argv[]) {
-  rs_recurstats *rs = rs_init(4);
+  rs_recurstats *rs = rs_init(2);
   uint8_t i, j, n;
   double p;
   n = N;
