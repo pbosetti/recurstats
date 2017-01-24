@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <gsl/gsl_cdf.h>
+#include <gsl/gsl_statistics_double.h>
 
 #pragma mark - Static functions
 static double t_test(rs_recurstats * rs);
@@ -67,15 +68,18 @@ double rs_last_value(rs_recurstats *r) {
 
 // Student's T test on rs->buffer
 static double t_test(rs_recurstats * rs) {
-  double t0, xbar;
-  uint8_t i;
+  double t0, xbar, sd;
   if (0.0 == rs->stdev)
     return 1.0;
-  for (i = 0; i < rs->buflen; i++) {
-    xbar += rs->buffer_data[i];
-  }
-  xbar /= rs->buflen;
-  t0 = (rs->mean - xbar) / (rs->stdev/sqrt(rs->depth));
+  // ring buffer mean
+//  for (i = 0; i < rs->buflen; i++) {
+//    uint8_t i;
+//    xbar += rs->buffer_data[i];
+//  }
+//  xbar /= rs->buflen;
+  xbar = gsl_stats_mean(rs->buffer_data, 1, rs->buflen);
+  sd = gsl_stats_sd(rs->buffer_data, 1, rs->buflen);
+  t0 = (rs->mean - xbar) / (sd/sqrt(rs->depth));
   return gsl_cdf_tdist_Q(fabs(t0), (double)(rs->depth - 1));
 }
 
