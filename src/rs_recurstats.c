@@ -6,15 +6,38 @@
 //  Copyright © 2017 Paolo Bosetti. All rights reserved.
 //
 
-#include "../include/recurstats.h"
 #include <stdlib.h>
 #include <math.h>
-#include <gsl/gsl_cdf.h>
-#include <gsl/gsl_statistics_double.h>
+#include "../include/recurstats.h"
+#include "rs_cdf_t.h"
 
 #pragma mark - Static functions
 static double t_test(rs_recurstats * rs);
 static uint8_t ringbuf_put(rs_recurstats *r, double value);
+
+static double mean(const double *data, const size_t size) {
+  long double mean = 0;
+  size_t i;
+
+  for (i = 0; i < size; i++) {
+    mean += (data[i] - mean) / (i + 1);
+  }
+
+  return mean;
+}
+
+static double stdev(const double *data, const size_t n, const double mean) {
+  long double tss = 0;
+  size_t i;
+
+  for (i = 0; i < n; i++) {
+    const long double delta = (data[i] - mean);
+    tss += delta * delta;
+  }
+
+  return sqrt(tss / (n - 1));
+}
+
 
 rs_recurstats * rs_init(uint8_t buflen_pow) {
   uint8_t buflen = pow(2, buflen_pow);
@@ -68,19 +91,17 @@ double rs_last_value(rs_recurstats *r) {
 
 // Student's T test on rs->buffer
 static double t_test(rs_recurstats * rs) {
-  double t0, xbar, sd;
+  double t0, xbar, sd, result;
   if (0.0 == rs->stdev)
     return 1.0;
-  // ring buffer mean
-//  for (i = 0; i < rs->buflen; i++) {
-//    uint8_t i;
-//    xbar += rs->buffer_data[i];
-//  }
-//  xbar /= rs->buflen;
-  xbar = gsl_stats_mean(rs->buffer_data, 1, rs->buflen);
-  sd = gsl_stats_sd(rs->buffer_data, 1, rs->buflen);
+//  xbar = gsl_stats_mean(rs->buffer_data, 1, rs->buflen);
+//  sd = gsl_stats_sd(rs->buffer_data, 1, rs->buflen);
+  xbar = mean(rs->buffer_data, rs->buflen);
+  sd = stdev(rs->buffer_data, rs->buflen, xbar);
   t0 = (rs->mean - xbar) / (sd/sqrt(rs->depth));
-  return gsl_cdf_tdist_Q(fabs(t0), (double)(rs->depth - 1));
+//  return gsl_cdf_tdist_Q(fabs(t0), (double)(rs->depth - 1));
+  result = rs_cdf_tdist_Q(fabs(t0), (double)(rs->depth - 1));
+  return result;
 }
 
 // Ring buffer

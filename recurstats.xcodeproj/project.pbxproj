@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		880533411E390B3D00C2B95C /* rs_cdf_t.c in Sources */ = {isa = PBXBuildFile; fileRef = 887549F11E38D44D00BC751C /* rs_cdf_t.c */; };
+		880533441E390B5300C2B95C /* cdf_main.c in Sources */ = {isa = PBXBuildFile; fileRef = 880533421E390B4E00C2B95C /* cdf_main.c */; };
 		881002351E376A1C00F533FA /* rs_recurstats.c in Sources */ = {isa = PBXBuildFile; fileRef = 881002331E376A1C00F533FA /* rs_recurstats.c */; };
 		881002441E376ADB00F533FA /* librecurstats.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 881002291E37695D00F533FA /* librecurstats.a */; };
 		881002471E376B7400F533FA /* rs_test.c in Sources */ = {isa = PBXBuildFile; fileRef = 881002381E376A8500F533FA /* rs_test.c */; };
+		887549F31E38D44D00BC751C /* rs_cdf_t.c in Sources */ = {isa = PBXBuildFile; fileRef = 887549F11E38D44D00BC751C /* rs_cdf_t.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,6 +26,15 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		880533361E390AC300C2B95C /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 		8810023B1E376ACF00F533FA /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -35,14 +47,25 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		880533381E390AC300C2B95C /* cdf_main */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = cdf_main; sourceTree = BUILT_PRODUCTS_DIR; };
+		880533421E390B4E00C2B95C /* cdf_main.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = cdf_main.c; sourceTree = "<group>"; };
 		881002291E37695D00F533FA /* librecurstats.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = librecurstats.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		881002321E376A0900F533FA /* recurstats.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = recurstats.h; sourceTree = "<group>"; };
 		881002331E376A1C00F533FA /* rs_recurstats.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rs_recurstats.c; sourceTree = "<group>"; };
 		881002381E376A8500F533FA /* rs_test.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = rs_test.c; sourceTree = "<group>"; };
 		8810023D1E376ACF00F533FA /* rs_test */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = rs_test; sourceTree = BUILT_PRODUCTS_DIR; };
+		887549F11E38D44D00BC751C /* rs_cdf_t.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = rs_cdf_t.c; sourceTree = "<group>"; };
+		887549F21E38D44D00BC751C /* rs_cdf_t.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = rs_cdf_t.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		880533351E390AC300C2B95C /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		881002261E37695D00F533FA /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -76,6 +99,7 @@
 			children = (
 				881002291E37695D00F533FA /* librecurstats.a */,
 				8810023D1E376ACF00F533FA /* rs_test */,
+				880533381E390AC300C2B95C /* cdf_main */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -84,6 +108,8 @@
 			isa = PBXGroup;
 			children = (
 				881002331E376A1C00F533FA /* rs_recurstats.c */,
+				887549F11E38D44D00BC751C /* rs_cdf_t.c */,
+				887549F21E38D44D00BC751C /* rs_cdf_t.h */,
 			);
 			path = src;
 			sourceTree = "<group>";
@@ -99,6 +125,7 @@
 		881002371E376A5700F533FA /* exe */ = {
 			isa = PBXGroup;
 			children = (
+				880533421E390B4E00C2B95C /* cdf_main.c */,
 				881002381E376A8500F533FA /* rs_test.c */,
 			);
 			path = exe;
@@ -117,6 +144,23 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
+		880533371E390AC300C2B95C /* cdf_main */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8805333C1E390AC300C2B95C /* Build configuration list for PBXNativeTarget "cdf_main" */;
+			buildPhases = (
+				880533341E390AC300C2B95C /* Sources */,
+				880533351E390AC300C2B95C /* Frameworks */,
+				880533361E390AC300C2B95C /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = cdf_main;
+			productName = cdf_main;
+			productReference = 880533381E390AC300C2B95C /* cdf_main */;
+			productType = "com.apple.product-type.tool";
+		};
 		881002281E37695D00F533FA /* recurstats */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8810022D1E37695D00F533FA /* Build configuration list for PBXNativeTarget "recurstats" */;
@@ -161,6 +205,10 @@
 				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = "Paolo Bosetti";
 				TargetAttributes = {
+					880533371E390AC300C2B95C = {
+						CreatedOnToolsVersion = 8.2.1;
+						ProvisioningStyle = Automatic;
+					};
 					881002281E37695D00F533FA = {
 						CreatedOnToolsVersion = 8.2.1;
 						ProvisioningStyle = Automatic;
@@ -185,15 +233,26 @@
 			targets = (
 				881002281E37695D00F533FA /* recurstats */,
 				8810023C1E376ACF00F533FA /* rs_test */,
+				880533371E390AC300C2B95C /* cdf_main */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
+		880533341E390AC300C2B95C /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				880533441E390B5300C2B95C /* cdf_main.c in Sources */,
+				880533411E390B3D00C2B95C /* rs_cdf_t.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		881002251E37695D00F533FA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				887549F31E38D44D00BC751C /* rs_cdf_t.c in Sources */,
 				881002351E376A1C00F533FA /* rs_recurstats.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,6 +276,20 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		8805333D1E390AC300C2B95C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8805333E1E390AC300C2B95C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		8810022B1E37695D00F533FA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -312,7 +385,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				OTHER_LDFLAGS = "-lgsl";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -321,7 +393,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
-				OTHER_LDFLAGS = "-lgsl";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -329,7 +400,6 @@
 		881002421E376ACF00F533FA /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = "-lgsl";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Debug;
@@ -337,7 +407,6 @@
 		881002431E376ACF00F533FA /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OTHER_LDFLAGS = "-lgsl";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -345,6 +414,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		8805333C1E390AC300C2B95C /* Build configuration list for PBXNativeTarget "cdf_main" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8805333D1E390AC300C2B95C /* Debug */,
+				8805333E1E390AC300C2B95C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		881002241E37695D00F533FA /* Build configuration list for PBXProject "recurstats" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
