@@ -14,7 +14,7 @@ Compile it with the provided Xcode project. It generates a static library.
 
 If you prefer, or if you ar not on a Mac, you can use the provided Cmake facility:
 
-```
+```bash
 $ mkdir build
 $ cd build
 $ cmake ..
@@ -27,32 +27,38 @@ Usage
 
 See example in `exe/rs_test.c`:
 
-```
+```C
 int main(int argc, const char * argv[]) {
-  rs_recurstats *rs = rs_init(2);
+  rs_recurstats *rs = rs_init(2); // Initialize a new instance rs
   uint8_t i, j, n;
   double p;
   n = N;
-  double data[N] = {
+  double data[N] = {  // Some data fro testing
     0.3, 1.4, 2.1, 3.7,
     4.9, 5.6, 60.1, 61.7,
     62.2, 63.5, 64.1, 65.4
   };
   
   for (i = 0; i < n; i++) {
-    p = rs_add_value_and_check(rs, data[i]);
+    // Adds a new point and perform the Student's T-test on the ring
+    // buffer content. A small probability p means that 
+    // the data is drifting and we shall reset the running stats
+    p = rs_add_value_and_check(rs, data[i]); 
     for (j = 0; j<rs->buflen; j++)
       printf("%f ", rs->buffer_data[j]);
     printf("- Last: %f, %f, %f\n", rs_last_value(rs), rs->mean, p);
     if (p < 0.01) {
       printf("Reset!\n");
-      rs_reset(rs);
+      rs_reset(rs); // reset the running stats
     }
   }
-
+  
+  // Remember to deallocate rs
   rs_free(rs);
   return 0;
 }
 
 ```
 
+The current running statistics, mean and standard deviation, are available as `rs->mean` and `rs->std`, respectively.
+**NOTE:** the ring buffer must have a size that is a power of 2. For this reason, the initializer `rs_init()` takes as argument the **exponent** of the buffer size, i.e. `rs_init(4)` creates a buffer of 2^4 elements.
