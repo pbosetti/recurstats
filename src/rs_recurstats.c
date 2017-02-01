@@ -81,7 +81,7 @@ void rs_add_value(rs_recurstats * rs, double x) {
       size_t n = ++rs->depth;
       rs->mean = ((n - 1) * rs->mean + x) / n;
       rs->stdev = sqrt(((n - 2) * pow(rs->stdev, 2) +
-                        (double)n / (n - 1) * pow(rs->stdev - x, 2)) / (n - 1));
+                        (double)n / (n - 1) * pow(rs->mean - x, 2)) / (n - 1));
 
       break;
     }
@@ -102,11 +102,13 @@ double rs_last_value(rs_recurstats *r) {
 static double t_test(rs_recurstats * rs) {
   double t0, xbar, sd, result;
   if (0.0 == rs->stdev)
-    return 1.0;
+    return 0.5;
+  if (rs->depth <= 2 * rs->buflen)
+    return 0.5;
   xbar = mean(rs->buffer_data, rs->buflen);
   sd = stdev(rs->buffer_data, rs->buflen, xbar);
-  t0 = (rs->mean - xbar) / (sd/sqrt(rs->depth));
-  result = rs_cdf_tdist_Q(fabs(t0), (double)(rs->depth - 1));
+  t0 = (rs->mean - xbar) / (sd/sqrt(rs->buflen));
+  result = rs_cdf_tdist_Q(fabs(t0), (double)(rs->buflen - 1)) * 2.0;
   return result;
 }
 

@@ -15,4 +15,7 @@ double rs_cdf_tdist_Q(double t0, double n);
 // Lower tail
 double rs_cdf_tdist_P(double t0, double n);
 
+// Uniform random number generator
+double box_muller(float m, float s);
+
 #endif /* rs_cdf_t_h */
