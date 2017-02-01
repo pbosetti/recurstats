@@ -62,3 +62,9 @@ int main(int argc, const char * argv[]) {
 
 The current running statistics, mean and standard deviation, are available as `rs->mean` and `rs->std`, respectively.
 **NOTE:** the ring buffer must have a size that is a power of 2. For this reason, the initializer `rs_init()` takes as argument the **exponent** of the buffer size, i.e. `rs_init(4)` creates a buffer of 2^4 elements.
+
+Example
+-------
+The following chart shows the results of applying the `rs_add_value_and_check()` function to a generation of 200 random normal data, where the first 100 points have mean 10 and standard deviation 0.5, the last 100 points have mean 15 and standard deviation 1.
+
+![Example chart](https://raw.githubusercontent.com/pbosetti/recurstats/master/doc/example.png)
