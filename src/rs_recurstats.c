@@ -59,23 +59,32 @@ void rs_free(rs_recurstats * rs) {
 }
 
 void rs_reset(rs_recurstats * rs) {
-  rs->depth = 1;
   rs->mean = rs_last_value(rs);
   rs->stdev = 0.0;
+  rs->depth = 1;
 }
 
 void rs_add_value(rs_recurstats * rs, double x) {
   ringbuf_put(rs, x);
-  if (0 == rs->depth) {
-    rs->mean = x;
-    rs->stdev = 0.0;
-    rs->depth = 1;
-  }
-  else {
-    size_t n = ++rs->depth;
-    rs->mean = ((n - 1) * rs->mean + x) / n;
-    rs->stdev = sqrt(((n - 2) * pow(rs->stdev, 2) +
-                      (double)n / (n - 1) * pow(rs->stdev - x, 2)) / (n - 1));
+  switch (rs->depth) {
+    case -1:
+      // overflow: keep everything constant
+      break;
+      
+    case 0:
+      rs->mean = x;
+      rs->stdev = 0.0;
+      rs->depth = 1;
+      break;
+      
+    default: {
+      size_t n = ++rs->depth;
+      rs->mean = ((n - 1) * rs->mean + x) / n;
+      rs->stdev = sqrt(((n - 2) * pow(rs->stdev, 2) +
+                        (double)n / (n - 1) * pow(rs->stdev - x, 2)) / (n - 1));
+
+      break;
+    }
   }
 }
 
@@ -94,12 +103,9 @@ static double t_test(rs_recurstats * rs) {
   double t0, xbar, sd, result;
   if (0.0 == rs->stdev)
     return 1.0;
-//  xbar = gsl_stats_mean(rs->buffer_data, 1, rs->buflen);
-//  sd = gsl_stats_sd(rs->buffer_data, 1, rs->buflen);
   xbar = mean(rs->buffer_data, rs->buflen);
   sd = stdev(rs->buffer_data, rs->buflen, xbar);
   t0 = (rs->mean - xbar) / (sd/sqrt(rs->depth));
-//  return gsl_cdf_tdist_Q(fabs(t0), (double)(rs->depth - 1));
   result = rs_cdf_tdist_Q(fabs(t0), (double)(rs->depth - 1));
   return result;
 }
